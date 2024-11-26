@@ -42,6 +42,7 @@ func main() {
 	{
 		iot.POST("/register", iotDeviceHandler.HandleRegisterDevice)
 		iot.POST("/uptime/:deviceId", iotDeviceHandler.HandleCreateUptime)
+		iot.PUT("/uptime/:deviceId/:uptimeId", iotDeviceHandler.HandleEndUptime)
 	}
 
 	err = r.Run(":8081")
