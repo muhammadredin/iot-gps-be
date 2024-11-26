@@ -11,6 +11,7 @@ import (
 )
 
 type UptimeService interface {
+	GetUptimeById(uptimeId string) (entity.Uptime, error)
 	CreateUptime(deviceId string) (res.CreateUptimeResponse, error)
 	EndUptime(deviceId string, uptimeId string) error
 }
@@ -59,4 +60,12 @@ func (u *uptimeService) EndUptime(deviceId string, uptimeId string) error {
 		return err
 	}
 	return nil
+}
+
+func (u *uptimeService) GetUptimeById(uptimeId string) (entity.Uptime, error) {
+	uptime, err := u.uptimeRepository.GetById(uptimeId)
+	if err != nil {
+		return entity.Uptime{}, err
+	}
+	return uptime, nil
 }

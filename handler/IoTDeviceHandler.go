@@ -13,15 +13,17 @@ type IoTDeviceHandler interface {
 	HandleRegisterDevice(c *gin.Context)
 	HandleCreateUptime(c *gin.Context)
 	HandleEndUptime(c *gin.Context)
+	HandleCreateGeoLog(c *gin.Context)
 }
 
 type ioTDeviceHandler struct {
 	ioTDeviceService service.IoTDeviceService
 	uptimeService    service.UptimeService
+	geoLogService    service.GeoLogService
 }
 
-func NewIoTDeviceHandler(ioTDeviceService service.IoTDeviceService, uptimeService service.UptimeService) IoTDeviceHandler {
-	return &ioTDeviceHandler{ioTDeviceService, uptimeService}
+func NewIoTDeviceHandler(ioTDeviceService service.IoTDeviceService, uptimeService service.UptimeService, geoLogService service.GeoLogService) IoTDeviceHandler {
+	return &ioTDeviceHandler{ioTDeviceService, uptimeService, geoLogService}
 }
 
 func (i *ioTDeviceHandler) HandleRegisterDevice(c *gin.Context) {
@@ -89,6 +91,34 @@ func (i *ioTDeviceHandler) HandleEndUptime(c *gin.Context) {
 		StatusCode: http.StatusCreated,
 		Message:    constants.UptimeEndSuccess,
 		Data:       []interface{}{},
+	})
+	return
+}
+
+func (i *ioTDeviceHandler) HandleCreateGeoLog(c *gin.Context) {
+	var request req.CreateGeoLogRequest
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, res.ErrorResponse{
+			StatusCode:   http.StatusBadRequest,
+			ErrorMessage: constants.InvalidRequestBodyError,
+		})
+		return
+	}
+
+	response, err := i.geoLogService.CreateGeoLog(request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, res.ErrorResponse{
+			StatusCode:   http.StatusInternalServerError,
+			ErrorMessage: "Unknown Error",
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, res.CommonResponse{
+		StatusCode: http.StatusCreated,
+		Message:    constants.UptimeEndSuccess,
+		Data:       response,
 	})
 	return
 }
