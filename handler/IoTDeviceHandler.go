@@ -117,7 +117,7 @@ func (i *ioTDeviceHandler) HandleCreateGeoLog(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, res.CommonResponse{
 		StatusCode: http.StatusCreated,
-		Message:    constants.UptimeEndSuccess,
+		Message:    constants.GeoLogCreateSuccess,
 		Data:       response,
 	})
 	return
