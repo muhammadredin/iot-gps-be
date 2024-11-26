@@ -11,14 +11,16 @@ import (
 
 type IoTDeviceHandler interface {
 	HandleRegisterDevice(c *gin.Context)
+	HandleCreateUptime(c *gin.Context)
 }
 
 type ioTDeviceHandler struct {
 	ioTDeviceService service.IoTDeviceService
+	uptimeService    service.UptimeService
 }
 
-func NewIoTDeviceHandler(ioTDeviceService service.IoTDeviceService) IoTDeviceHandler {
-	return &ioTDeviceHandler{ioTDeviceService}
+func NewIoTDeviceHandler(ioTDeviceService service.IoTDeviceService, uptimeService service.UptimeService) IoTDeviceHandler {
+	return &ioTDeviceHandler{ioTDeviceService, uptimeService}
 }
 
 func (i *ioTDeviceHandler) HandleRegisterDevice(c *gin.Context) {
@@ -45,6 +47,26 @@ func (i *ioTDeviceHandler) HandleRegisterDevice(c *gin.Context) {
 		StatusCode: http.StatusCreated,
 		Message:    constants.DeviceRegisterSuccess,
 		Data:       response,
+	})
+	return
+}
+
+func (i *ioTDeviceHandler) HandleCreateUptime(c *gin.Context) {
+	deviceId := c.Param("deviceId")
+
+	uptime, err := i.uptimeService.CreateUptime(deviceId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, res.ErrorResponse{
+			StatusCode:   http.StatusInternalServerError,
+			ErrorMessage: "Unknown Error",
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, res.CommonResponse{
+		StatusCode: http.StatusCreated,
+		Message:    constants.UptimeCreateSuccess,
+		Data:       uptime,
 	})
 	return
 }

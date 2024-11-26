@@ -1,8 +1,10 @@
 package entity
 
+import "time"
+
 type Uptime struct {
 	Id          string
-	IotDeviceId string
-	StartAt     string
-	EndAt       string
+	IoTDeviceId string
+	StartAt     time.Time
+	EndAt       time.Time
 }
