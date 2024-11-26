@@ -1,0 +1,56 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Output of the go coverage tool
+*.out
+
+# GoLand-specific files
+.idea/
+*.iml
+workspace.xml
+
+# Logs
+*.log
+
+# Dependencies
+vendor/
+
+# Generated files
+*.gen.go
+
+# Go modules
+go.sum
+
+# Binary artifacts
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Temporary files
+*.tmp
+*.temp
+
+# Go build artifacts
+*.o
+*.a
+
+# Test binary and coverage outputs
+*.test
+*.cov
+
+# Debugging or profiling data
+*.pprof
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Local environment
+.env
+
+PaymentAPI
