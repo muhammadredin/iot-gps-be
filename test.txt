@@ -1,5 +1,7 @@
-ini branch tambahan asdmasdpdskjfjsssst jadi design lagi lagi lagi lgi kyahhhh
-ini branch baru
-ini sudah done done 
-ini update terbaru testing ada virusnya
-integration
+console.log('hello world');
+ini tambahan
+tambahan
+tambahan
+tambahan
+tambahan
+Ready UI
