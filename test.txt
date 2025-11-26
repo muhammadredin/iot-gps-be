@@ -1,5 +1,3 @@
-ini branch tambahan asdmasdpdskjfjsssst jadi design lagi lagi lagi lgi kyahhhh
-ini branch baru
-ini sudah done done 
-ini update terbaru testing ada virusnya
-integration
+String query = "SELECT * FROM users WHERE username = ?";
+PreparedStatement stmt = connection.prepareStatement(query);
+stmt.setString(1, username);
