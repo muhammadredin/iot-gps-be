@@ -1,4 +1,54 @@
-String query = "SELECT * FROM users WHERE username = ?";
-PreparedStatement stmt = connection.prepareStatement(query);
-stmt.setString(1, username);
-ini kommentar
+import 'package:dio/dio.dart';
+import 'package:perisaiku/core/services/api_service.dart';
+import 'package:perisaiku/resources/constants/services.dart';
+import 'package:perisaiku/resources/models/api/auth_model.dart';
+
+class AuthService {
+  static final AuthService _instance = AuthService._internal();
+  factory AuthService() => _instance;
+  AuthService._internal();
+
+  final Dio _dio = ApiService.instance;
+
+  Future<Map<String, dynamic>> signIn(SignInRequest request) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.AUTH_SIGNIN,
+        data: request.toJson(),
+      );
+      return ApiService.handleResponse(response);
+    } on DioException catch (e) {
+      return ApiService.handleError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> createUsername(String username) async {
+    try {
+      final response = await _dio.post(
+        ApiEndpoints.DASHBOARD_CREATE_USERNAME,
+        data: {'username': username},
+      );
+      return ApiService.handleResponse(response);
+    } on DioException catch (e) {
+      return ApiService.handleError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> refreshToken() async {
+    try {
+      final response = await _dio.post(ApiEndpoints.AUTH_REFRESH_TOKEN);
+      return ApiService.handleResponse(response);
+    } on DioException catch (e) {
+      return ApiService.handleError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> signOut() async {
+    try {
+      final response = await _dio.post(ApiEndpoints.AUTH_SIGNOUT);
+      return ApiService.handleResponse(response);
+    } on DioException catch (e) {
+      return ApiService.handleError(e);
+    }
+  }
+}
