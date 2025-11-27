@@ -1,4 +1,4 @@
-console.log('hello world');
+salsdmapconsole.log('hello world');
 ini tambahan
 tambahan
 tambahan
